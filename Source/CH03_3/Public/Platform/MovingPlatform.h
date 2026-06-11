@@ -4,37 +4,36 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "RotatingPlatform.generated.h"
+#include "MovingPlatform.generated.h"
 
 UCLASS()
-class CH03_3_API ARotatingPlatform : public AActor
+class CH03_3_API AMovingPlatform : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	ARotatingPlatform();
+	AMovingPlatform();
 
 protected:
 	virtual void BeginPlay() override;
 	
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* SceneRoot;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Components")
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* StaticMeshComp;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "플렛폼셋팅")
-	float RotationSpeed;
+	float MoveSpeed;
 
-	FTimerHandle DisappearTimerHandle;
-	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "플렛폼셋팅")
-	float ToggleInterval;
-	
-	void ToggleVisibility();
-	
+	float MaxRange;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "플렛폼셋팅")
+	FVector MoveDirection;
+
+	FVector StartLocation;
+
 public:	
 	virtual void Tick(float DeltaTime) override;
 
