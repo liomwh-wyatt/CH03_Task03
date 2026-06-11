@@ -17,6 +17,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
 	USceneComponent* SceneRoot;
 	
@@ -26,6 +28,13 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "플렛폼셋팅")
 	float RotationSpeed;
 
+	FTimerHandle DisappearTimerHandle;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "플렛폼셋팅")
+	float ToggleInterval;
+	
+	void ToggleVisibility();
+	
 public:	
 	virtual void Tick(float DeltaTime) override;
 

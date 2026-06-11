@@ -4,6 +4,8 @@
 #include "Platform/RotatingPlatform.h"
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 ARotatingPlatform::ARotatingPlatform()
 {
@@ -16,11 +18,20 @@ ARotatingPlatform::ARotatingPlatform()
 	StaticMeshComp->SetupAttachment(SceneRoot);
 	
 	RotationSpeed = 90.0f;
+	ToggleInterval = 3.0f;
 }
 
 void ARotatingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	GetWorld()->GetTimerManager().SetTimer(
+		DisappearTimerHandle,
+		this,
+		&ARotatingPlatform::ToggleVisibility,
+		ToggleInterval,
+		true
+	);
 	
 }
 
@@ -33,6 +44,21 @@ void ARotatingPlatform::Tick(float DeltaTime)
 		float DeltaRot = RotationSpeed * DeltaTime;
 		FRotator NewRot = FRotator(0.0f, DeltaRot, 0.0f);
 		AddActorLocalRotation(NewRot);
+	}
+}
+
+void ARotatingPlatform::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	GetWorld()->GetTimerManager().ClearTimer(DisappearTimerHandle);
+
+	Super::EndPlay(EndPlayReason);
+}
+
+void ARotatingPlatform::ToggleVisibility()
+{
+	if (StaticMeshComp)
+	{
+		StaticMeshComp->ToggleVisibility();
 	}
 }
 
