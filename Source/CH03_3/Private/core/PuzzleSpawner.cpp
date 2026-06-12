@@ -32,8 +32,12 @@ void APuzzleSpawner::BeginPlay()
 			continue;
 		}
 		
-		FVector SpawnLocation = GetActorLocation() + FVector(i * SpawnOffset, 0.0f, 0.0f);
-		FRotator SpawnRotation = FRotator::ZeroRotator;
+		float RandomY = FMath::RandRange(-400.0f, 400.0f); // 좌우 -400 ~ 400 범위
+		float RandomZ = FMath::RandRange(0.0f, 200.0f);		
+		FVector SpawnLocation = GetActorLocation() + FVector(i * SpawnOffset, RandomY, RandomZ);
+        
+		float RandomYaw = FMath::RandRange(0.0f, 360.0f);
+		FRotator SpawnRotation = FRotator(0.0f, RandomYaw, 0.0f);
 
 		GetWorld()->SpawnActor<AActor>(SelectedClass, SpawnLocation, SpawnRotation);
 	}

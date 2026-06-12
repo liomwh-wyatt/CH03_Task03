@@ -25,14 +25,19 @@ void ARotatingPlatform::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	RotationSpeed = FMath::RandRange(45.0f, 180.0f);
+	if (FMath::RandBool())
+	{
+		RotationSpeed *= -1.0f; 
+	}
+	
 	GetWorld()->GetTimerManager().SetTimer(
 		DisappearTimerHandle,
 		this,
 		&ARotatingPlatform::ToggleVisibility,
 		ToggleInterval,
 		true
-	);
-	
+	);	
 }
 
 void ARotatingPlatform::Tick(float DeltaTime)

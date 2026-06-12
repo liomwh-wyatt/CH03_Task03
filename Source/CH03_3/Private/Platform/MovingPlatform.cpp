@@ -26,7 +26,10 @@ void AMovingPlatform::BeginPlay()
 	Super::BeginPlay();
 	
 	StartLocation = GetActorLocation();
-	MoveDirection.Normalize();	
+	MoveDirection.Normalize();
+	
+	MoveSpeed = FMath::RandRange(100.0f, 500.0f);
+	MaxRange = FMath::RandRange(300.0f, 800.0f);
 }
 
 void AMovingPlatform::Tick(float DeltaTime)
